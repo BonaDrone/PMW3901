@@ -107,11 +107,11 @@ uint8_t PMW3901::registerRead(uint8_t reg) {
   _spi->transfer(reg);
   delayMicroseconds(50);
   uint8_t value = _spi->transfer(0);
-  delayMicroseconds(200);
+  delayMicroseconds(50);
 
   digitalWrite(_cspin, HIGH);
 
-  delayMicroseconds(200);
+  delayMicroseconds(50);
 
   _spi->endTransaction();
 
