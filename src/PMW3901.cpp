@@ -32,7 +32,7 @@ boolean PMW3901::begin(void) {
   // Setup SPI port
   _spi->begin();
   pinMode(_cspin, OUTPUT);
-  _spi->beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE3));
+  _spi->beginTransaction(SPISettings(5000000, MSBFIRST, SPI_MODE3));
 
   // Make sure the SPI bus is reset
   digitalWrite(_cspin, HIGH);
@@ -80,38 +80,38 @@ void PMW3901::readMotionCount(int16_t *deltaX, int16_t *deltaY)
 void PMW3901::registerWrite(uint8_t reg, uint8_t value) {
   reg |= 0x80u;
 
-  _spi->beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE3));
+  _spi->beginTransaction(SPISettings(5000000, MSBFIRST, SPI_MODE3));
 
   digitalWrite(_cspin, LOW);
 
-  delayMicroseconds(50);
+  delayMicroseconds(10);
   _spi->transfer(reg);
   _spi->transfer(value);
-  delayMicroseconds(50);
+  delayMicroseconds(10);
 
   digitalWrite(_cspin, HIGH);
 
   _spi->endTransaction();
 
-  delayMicroseconds(200);
+  // delayMicroseconds(10);
 }
 
 uint8_t PMW3901::registerRead(uint8_t reg) {
   reg &= ~0x80u;
 
-  _spi->beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE3));
+  _spi->beginTransaction(SPISettings(5000000, MSBFIRST, SPI_MODE3));
 
   digitalWrite(_cspin, LOW);
 
-  delayMicroseconds(50);
+  delayMicroseconds(10);
   _spi->transfer(reg);
-  delayMicroseconds(50);
+  // delayMicroseconds(10);
   uint8_t value = _spi->transfer(0);
-  delayMicroseconds(50);
+  delayMicroseconds(10);
 
   digitalWrite(_cspin, HIGH);
 
-  delayMicroseconds(50);
+  delayMicroseconds(10);
 
   _spi->endTransaction();
 
